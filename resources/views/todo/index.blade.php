@@ -20,35 +20,14 @@
                 <div class="float-right">
                     <a href="{{ route('todo.edit', $todo->id) }}" class="btn btn-info btn-sm">Modifier</a>
 
-                    <!-- Formulaire de suppression avec SweetAlert2 -->
-                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $todo->id }})">Supprimer</button>
-
-                    <form id="delete-form-{{ $todo->id }}" action="{{ route('todo.destroy', $todo->id) }}" method="POST" style="display: none;">
+                    <form action="{{ route('todo.destroy', $todo->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Confirmer la suppression de cette tâche ?');">
                         @csrf
                         @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
                     </form>
                 </div>
             </li>
         @endforeach
     </ul>
 </div>
-
-<script>
-    function confirmDelete(todoId) {
-        Swal.fire({
-            title: 'Êtes-vous sûr ?',
-            text: "Vous ne pourrez pas annuler cela !",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Oui, supprimer !',
-            cancelButtonText: 'Annuler'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('delete-form-' + todoId).submit();
-            }
-        })
-    }
-</script>
 @endsection
